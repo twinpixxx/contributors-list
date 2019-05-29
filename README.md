@@ -4,6 +4,6 @@
 
 - Install NodeJS
 
-- Run `npm run`
+- Run `npm start`
 
 - Go to `localhost:9000`
