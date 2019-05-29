@@ -6,22 +6,26 @@
     <title>tuts</title>
     <link rel="stylesheet" href="styles/main.css">
   </head>
-  <body>
+  <body class="layout">
     <header class="header">
       
     </header>
     <article class="container">
-      <section class="title"></section>
+      <section class="title">
+        <span></span>
+      </section>
       <section class="table__wrapper">
-        <table class="contributors__list">
+        <table class="contributor__list">
           <thead>
-            <tr>
+            <tr class="contributor__list-head">
+              <th data-key="avatar_url"></th>
               <th data-key="login">Username</th>
               <th data-key="id">Id</th>
               <th data-key="html_url">Github Link</th>
               <th data-key="contributions">Number of Contributions</th>
             </tr>
           </thead>
+          <tbody></tbody>
         </table>
       </section>
     </article>
