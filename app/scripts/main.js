@@ -1,12 +1,22 @@
 $(document).ready(function() {
 	let url = 'https://api.github.com/repos/thomasdavis/backbonetutorials/contributors';
 	$.getJSON(url, function(data) {
+			function additionalInfo(data) {
+				for (let element of data) {
+			    	let additionalUrl = `https://api.github.com/users/${element.login}`;
+					$.getJSON(additionalUrl, function(data) {
+					
+					});
+				}
+			}
 			function generateTable(table, data) {
 				let headers = document.querySelectorAll('th');
 				let keys = [];
 				Array.prototype.forEach.call(headers, function(header) {
 					keys.push(header.dataset.key)
 				});
+				additionalInfo(data);
+				// data.push(additionalInfo(data));
 			  	for (let element of data) {
 			    	let row = table.insertRow();
 			    	row.setAttribute('class', 'contributor__tr');
