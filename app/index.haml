@@ -12,9 +12,9 @@
       %section.title
         %span
       %section.table__wrapper
-        %table.contributor__list
-          %thead
-            %tr.contributor__list-head
+        %table#contributors-table.contributors
+          %thead.contributors__head
+            %tr.contributors__head-tr
               %th(data-key="avatar_url")
               %th(data-key="login") Username
               %th(data-key="id") Id
@@ -23,6 +23,6 @@
               %th(data-key="company") Company
               %th(data-key="location") Address
               %th(data-key="email") Email
-          %tbody
+          %tbody#contributors__list
     %script(src="/node_modules/jquery/dist/jquery.min.js" type="text/javascript")
     %script(src="scripts/main.js")
