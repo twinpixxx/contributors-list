@@ -1,86 +1,122 @@
-function generateTable(table, data) {
-			let headers = document.querySelectorAll('th');
-			let keys = [];
-			Array.prototype.forEach.call(headers, function(header) {
-				keys.push(header.dataset.key)
-			});
-			for (let element of data) {
-				let row = table.insertRow();
-				row.setAttribute('class', 'contributor__tr');
-				// let userData;
-				for (let key of keys) {
-					let cell = row.insertCell();
-					switch (key) {
-						case 'avatar_url':
-							let contributorAccountImage = document.createElement('img');
-							contributorAccountImage.setAttribute('class', 'contributor__account-image');
-							contributorAccountImage.setAttribute('src', element[key]);
-							cell.appendChild(contributorAccountImage);
-							cell.setAttribute('class', 'contributor__td contributor__td-image');
-							break;
-						case 'login':
-							let contributorLogin = document.createTextNode(element[key]);
-							cell.appendChild(contributorLogin);
-							cell.setAttribute('class', 'contributor__login contributor__td');
-							break;
-						case 'id':
-							let contributorId = document.createTextNode(element[key]);
-							cell.appendChild(contributorId);
-							cell.setAttribute('class', 'contributor__id contributor__td');
-							break;
-						case 'html_url':
-							let contributorAccountLink = document.createElement('a');
-							contributorAccountLink.setAttribute('class', 'contributor__account-url');
-							contributorAccountLink.setAttribute('href', element[key]);
-							contributorAccountLink.textContent += `${element.login}'s account`;
-							cell.appendChild(contributorAccountLink);
-							cell.setAttribute('class', 'contributor__td');
-							break;
-						case 'contributions':
-							let numberOfContributions = document.createTextNode(element[key]);
-							cell.appendChild(numberOfContributions);
-							cell.setAttribute('class', 'contributor__contributions contributor__td');
-							if (element[key] < 5) {
-								cell.setAttribute('class', 'contributor__contributions contributor__td contributor__contributions-bronze');
-							} else if ((element[key] > 5) && (element[key] < 20)) {
-								cell.setAttribute('class', 'contributor__contributions contributor__td contributor__contributions-silver');
-							} else if ((element[key] >= 20)) {
-								cell.setAttribute('class', 'contributor__contributions contributor__td contributor__contributions-gold');
-							}
-							break;
-						case 'company':
-						case 'location':
-						case 'email':
-							let additionalUrl = `https://api.github.com/users/${element.login}`;
-							// if (userData) {
-							// 	let info = userData[element[key]];
-							// 	let text = document.createTextNode(info);
-							// 	cell.appendChild(text);
-							// 	cell.setAttribute('class', 'contributor__td');
-							// }
-							$.getJSON(additionalUrl, function(data1) {
-								// userData = data1;
-								let info = data1[key];
-								let text = document.createTextNode(info);
-								cell.appendChild(text);
-								cell.setAttribute('class', 'contributor__td');
-							});
-							break;
-						default:
-							let contributorInfo = document.createTextNode(element[key]);
-							cell.appendChild(contributorInfo);
-							cell.setAttribute('class', 'contributor__td');
-							break;
-					}
+function generateTable(table, data, keys) {
+	for (let element of data) {
+		let row = table.insertRow();
+		row.setAttribute('class', 'contributors__tr');
+		// let userData;
+		if (keys.has('avatar_url')) {
+			let cell = row.insertCell();
+			let contributorAccountImage = document.createElement('img');
+			contributorAccountImage.setAttribute('class', 'contributors__account-image');
+			contributorAccountImage.setAttribute('src', element['avatar_url']);
+			cell.appendChild(contributorAccountImage);
+			cell.setAttribute('class', 'contributors__td contributors__td-image');
+		}
+		if (keys.has('login')) {
+			let cell = row.insertCell();
+			let contributorLogin = document.createTextNode(element['login']);
+			cell.appendChild(contributorLogin);
+			cell.setAttribute('class', 'contributors__login contributors__td');
+		}
+		if (keys.has('id')) {
+			let cell = row.insertCell();
+			let contributorId = document.createTextNode(element['id']);
+			cell.appendChild(contributorId);
+			cell.setAttribute('class', 'contributors__id contributors__td');
+		}
+		if (keys.has('html_url')) {
+			let cell = row.insertCell();
+			let contributorAccountLink = document.createElement('a');
+			contributorAccountLink.setAttribute('class', 'contributors__account-url');
+			contributorAccountLink.setAttribute('href', element['html_url']);
+			contributorAccountLink.textContent += `${element.login}'s account`;
+			cell.appendChild(contributorAccountLink);
+			cell.setAttribute('class', 'contributors__td');
+		}
+		if (keys.has('contributions')) {
+			let cell = row.insertCell();
+			let numberOfContributions = document.createTextNode(element['contributions']);
+			cell.appendChild(numberOfContributions);
+			cell.setAttribute('class', 'contributors__contributions contributors__td');
+			if (element['contributions'] < 5) {
+				cell.setAttribute('class', 'contributors__contributions contributors__td contributors__contributions-bronze');
+			} else if ((element['contributions'] > 5) && (element['contributions'] < 20)) {
+				cell.setAttribute('class', 'contributors__contributions contributors__td contributors__contributions-silver');
+			} else if ((element['contributions'] >= 20)) {
+				cell.setAttribute('class', 'contributors__contributions contributors__td contributors__contributions-gold');
+			}		
+		}
+		if (keys.has('company')) {
+			let cell = row.insertCell();	
+			cell.setAttribute('class', 'contributors__company contributors__td');
+		}
+		if (keys.has('location')) {
+			let cell = row.insertCell();	
+			cell.setAttribute('class', 'contributors__location contributors__td');
+		}
+		if (keys.has('email')) {
+			let cell = row.insertCell();	
+			cell.setAttribute('class', 'contributors__email contributors__td');
+		}
+	}
+}
+
+
+function getAdditionalInfo(table, keys) {
+	let rows = table.querySelectorAll('tr');
+	for (let row of rows) {
+		let contributorLogin = row.getElementsByClassName('contributors__login')[0].innerText;
+		let additionalUrl = 'https://api.github.com/users/'+contributorLogin;
+		$.getJSON(additionalUrl, function(additionalData){
+			if (contributorLogin == 'kubetz') {
+			debugger;
+		}
+			if (keys.has('company')) {
+				let cell = row.querySelector('.contributors__company');
+				let contributorCompany = additionalData['company'];
+				if (contributorCompany) {
+					cell.innerHTML = contributorCompany;
+				} else {
+					cell.innerHTML = '&mdash;';
+					cell.setAttribute('class', 'contributors__company contributors__td contributors__company-undef');
 				}
 			}
-		}
+			if (keys.has('location')) {
+				let cell = row.querySelector('.contributors__location');
+				let contributorLocation = additionalData['location'];
+				if (contributorLocation) {
+					cell.innerHTML = contributorLocation;
+				} else {
+					cell.innerHTML = '&mdash;';
+					cell.setAttribute('class', 'contributors__email contributors__td contributors__location-undef');
+				}
+			}
+			if (keys.has('email')) {
+				let cell = row.querySelector('.contributors__email');
+				let contributorEmail = additionalData['email'];
+				if (contributorEmail) {
+					cell.innerHTML = contributorEmail;
+				} else {
+					cell.innerHTML = '&mdash;';
+					cell.setAttribute('class', 'contributors__email contributors__td contributors__email-undef');
+				}
+			}
+		});
+	}
+}
 
 
 $(document).ready(function() {
-	let url = 'https://api.github.com/repos/thomasdavis/backbonetutorials/contributors';
+	const url = 'https://api.github.com/repos/thomasdavis/backbonetutorials/contributors';
+	//fix: table should be tbody
+	let table = document.getElementById('contributors__list');
+	let headers = document.querySelectorAll('th');
+	let keys = new Set();
+	//rewrite with array.set
+	Array.prototype.forEach.call(headers, function(header) {
+		keys.add(header.dataset.key);
+	});
 	$.getJSON(url, function(data) {
-		let table = document.querySelector("table tbody");
-		generateTable(table, data);
+		generateTable(table, data, keys);
+		getAdditionalInfo(table, keys);
 	});
 });
