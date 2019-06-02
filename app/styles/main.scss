@@ -10,12 +10,11 @@
     max-width: 1280px;
     width: 100%;
 }
-.contributor {
-    &__list {
-        border-collapse: collapse;
-        width: 1280px;
-        border-spacing: 0;
-        &-head > th{
+.contributors {
+    border-collapse: collapse;
+    max-width: 1280px;
+    border-spacing: 0;
+        &__head-tr > th {
             color: #fff;
             text-align: left;
             padding: 1.5em 25px;
@@ -27,36 +26,43 @@
                 border-radius: 0 20px 0 0;
             }
         }
-    }
-    &__td {
-        padding: .5em 20px;
-        margin: 0;
-        vertical-align: middle;
-        &-image {
-            width: 80px;
+        &__td {
+            padding: .5em 20px;
+            margin: 0;
+            vertical-align: middle;
+            &-image {
+                width: 80px;
+            }
         }
-    }
-    &__tr {
-        &:nth-child(even) {
-            background-color: #eaeaea;
+        &__tr {
+            &:nth-child(even) {
+                background-color: #eaeaea;
+            }
+            &:last-child > td:first-child {
+                border-radius: 0 0 0 20px;
+            }
+            &:last-child > td:last-child {
+                border-radius: 0 0 20px 0;
+            }
         }
-        &:last-child > td:first-child {
-            border-radius: 0 0 0 20px;
+        &__account-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
         }
-        &:last-child > td:last-child {
-            border-radius: 0 0 20px 0;
+        &__account-url {
+            text-decoration: none;
+            color: #000;
         }
-    }
-    &__account-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-    }
-    &__account-url {
-        text-decoration: none;
-        color: #000;
-    }
-    &__contributions {
-        padding-left: 100px;
-    }
+        &__contributions {
+            text-align: center;
+        }
+        &__company-undef,
+        &__location-undef,
+        &__email-undef {
+            padding-left: 40px;
+        }
+}
+th[data-key = 'contributions'] {
+    text-align: center;
 }
