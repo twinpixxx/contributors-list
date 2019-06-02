@@ -61,7 +61,7 @@ function lintTest() {
 };
 
 function html() {
-  return src('app/*.html')
+  return src(['app/*.html', '.tmp/*.html'])
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
     .pipe($.if(/\.css$/, $.postcss([cssnano({safe: true, autoprefixer: false})])))
@@ -89,10 +89,19 @@ function fonts() {
     .pipe($.if(!isProd, dest('.tmp/fonts'), dest('dist/fonts')));
 };
 
+function views() {
+  return src('app/*.haml')
+    .pipe($.plumber())
+    .pipe($.haml({pretty: true}))
+    .pipe(dest('.tmp'))
+    .pipe(server.reload({stream: true}));
+}
+
 function extras() {
   return src([
     'app/*',
-    '!app/*.html'
+    '!app/*.html',
+    '!app/*.haml'
   ], {
     dot: true
   }).pipe(dest('dist'));
@@ -111,7 +120,7 @@ const build = series(
   clean,
   parallel(
     lint,
-    series(parallel(styles, scripts), html),
+    series(parallel(styles, scripts), views, html),
     images,
     fonts,
     extras
@@ -137,6 +146,7 @@ function startAppServer() {
     '.tmp/fonts/**/*'
   ]).on('change', server.reload);
 
+  watch('app/**/*.haml', views);
   watch('app/styles/**/*.scss', styles);
   watch('app/scripts/**/*.js', scripts);
   watch('app/fonts/**/*', fonts);
@@ -176,7 +186,7 @@ function startDistServer() {
 
 let serve;
 if (isDev) {
-  serve = series(clean, parallel(styles, scripts, fonts), startAppServer);
+  serve = series(clean, parallel(views, styles, scripts, fonts), startAppServer);
 } else if (isTest) {
   serve = series(clean, scripts, startTestServer);
 } else if (isProd) {
