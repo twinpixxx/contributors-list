@@ -1,0 +1,28 @@
+!!!
+%html(lang="")
+  %head
+    %meta(content="text/html; charset=UTF-8" http-equiv="Content-Type")/
+    %meta(charset="utf-8")/
+    %meta(content="width=device-width, initial-scale=1" name="viewport")/
+    %title tuts
+    %link(href="styles/main.css" rel="stylesheet")/
+  %body.layout
+    %header.header
+    %article.container
+      %section.title
+        %span
+      %section.table__wrapper
+        %table.contributor__list
+          %thead
+            %tr.contributor__list-head
+              %th(data-key="avatar_url")
+              %th(data-key="login") Username
+              %th(data-key="id") Id
+              %th(data-key="html_url") Github Link
+              %th(data-key="contributions") Number of Contributions
+              %th(data-key="company") Company
+              %th(data-key="location") Address
+              %th(data-key="email") Email
+          %tbody
+    %script(src="/node_modules/jquery/dist/jquery.min.js" type="text/javascript")
+    %script(src="scripts/main.js")
