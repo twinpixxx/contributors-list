@@ -66,3 +66,55 @@
 th[data-key = 'contributions'] {
     text-align: center;
 }
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+    .contributors, .contributors__head, .contributors__list, th, tr, td { 
+        display: block; 
+    }
+    .contributors__head-tr { 
+       display: none;
+    }
+    
+    .contributors__tr { 
+        border: 1px solid #ccc; 
+        &:last-child > td:first-child {
+            border-radius: 0;
+        }
+        &:last-child > td:last-child {
+            border-radius: 0;
+        }
+    }
+    
+    .contributors__td { 
+        border: none;
+        border-bottom: 1px solid #ccc; 
+        position: relative;
+        padding-left: 50%;
+        height: 30px;
+    }
+    .contributors__td-image {
+        height: 80px;
+        width: 100%;
+        padding-left: 6px;
+    }
+    .contributors__contributions {
+        text-align: unset;
+        padding-left: 50%;
+    }
+    .contributors__td:before { 
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+    }
+    td:nth-of-type(2):before { content: "Username"; }
+    td:nth-of-type(3):before { content: "Id"; }
+    td:nth-of-type(4):before { content: "Github Link"; }
+    td:nth-of-type(5):before { content: "Number of Contributions"; }
+    td:nth-of-type(6):before { content: "Company"; }
+    td:nth-of-type(7):before { content: "Address"; }
+    td:nth-of-type(8):before { content: "Email"; }
+}
