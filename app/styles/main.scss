@@ -1,3 +1,5 @@
+$head-th_padding: 1.5em 25px;
+@import 'mixins';
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 *, 
 *::before, 
@@ -17,7 +19,7 @@
         &__head-tr > th {
             color: #fff;
             text-align: left;
-            padding: 1.5em 25px;
+            padding: $head-th_padding;
             background-color: #2f4268;
             &:first-child {
                 border-radius: 20px 0 0 0;
@@ -86,13 +88,8 @@ only screen and (max-width: 760px),
         }
     }
     
-    .contributors__td { 
-        border: none;
-        border-bottom: 1px solid #ccc; 
-        position: relative;
-        padding-left: 50%;
-        height: 30px;
-    }
+    .contributors__td { @include contributors__td-responsive(none, 1px solid #ccc, relative, 50%, 30px); }
+    .contributors__td:before { @include contributors__td_before-responsive(absolute, 10px, 45%, nowrap, 6px, 6px); }
     .contributors__td-image {
         height: 80px;
         width: 100%;
@@ -102,19 +99,11 @@ only screen and (max-width: 760px),
         text-align: unset;
         padding-left: 50%;
     }
-    .contributors__td:before { 
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        width: 45%; 
-        padding-right: 10px; 
-        white-space: nowrap;
-    }
-    td:nth-of-type(2):before { content: "Username"; }
-    td:nth-of-type(3):before { content: "Id"; }
-    td:nth-of-type(4):before { content: "Github Link"; }
-    td:nth-of-type(5):before { content: "Number of Contributions"; }
-    td:nth-of-type(6):before { content: "Company"; }
-    td:nth-of-type(7):before { content: "Address"; }
-    td:nth-of-type(8):before { content: "Email"; }
+    .contributors__td:nth-of-type(2):before { content: "Username"; }
+    .contributors__td:nth-of-type(3):before { content: "Id"; }
+    .contributors__td:nth-of-type(4):before { content: "Github Link"; }
+    .contributors__td:nth-of-type(5):before { content: "Number of Contributions"; }
+    .contributors__td:nth-of-type(6):before { content: "Company"; }
+    .contributors__td:nth-of-type(7):before { content: "Address"; }
+    .contributors__td:nth-of-type(8):before { content: "Email"; }
 }

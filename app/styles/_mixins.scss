@@ -1,0 +1,15 @@
+@mixin contributors__td-responsive($border, $border-bottom, $position, $padding, $height) {
+  border: $border;
+  border-bottom: $border-bottom; 
+  position: $position;
+  padding-left: $padding;
+  height: $height;
+}
+@mixin contributors__td_before-responsive($position, $padding, $width, $wide-space, $top, $left) {
+  position: $position;
+  top: $top;
+  left: $left;
+  width: $width; 
+  padding-right: $padding; 
+  white-space: $wide-space;
+}
