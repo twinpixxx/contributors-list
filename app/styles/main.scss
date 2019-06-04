@@ -14,7 +14,7 @@ $head-th_padding: 1.5em 25px;
 }
 .contributors {
     border-collapse: collapse;
-    max-width: 1280px;
+    width: 90vw;
     border-spacing: 0;
         &__head-tr > th {
             color: #fff;
@@ -63,6 +63,26 @@ $head-th_padding: 1.5em 25px;
         &__location-undef,
         &__email-undef {
             padding-left: 40px;
+        }
+        &_filtered {
+            &_bronze {
+                & .contributors__contributions_silver,
+                & .contributors__contributions_gold {
+                    display: none;
+                }
+            }
+            &_silver {
+                & .contributors__contributions_bronze,
+                & .contributors__contributions_gold {
+                    display: none;
+                }
+            }
+            &_gold {
+                & .contributors__contributions_bronze,
+                & .contributors__contributions_silver {
+                    display: none;
+                }
+            }
         }
 }
 th[data-key = 'contributions'] {

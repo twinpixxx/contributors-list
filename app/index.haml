@@ -11,15 +11,24 @@
     %article.container
       %section.title
         %span
+      %section.selection
+        %select#contributors__groupper
+          %option{selected: "selected", value: "All"} All
+          %option{value: "Bronze"} Bronze
+          %option{value: "Silver"} Silver
+          %option{value: "Gold"} Gold
       %section.table__wrapper
         %table#contributors-table.contributors
           %thead.contributors__head
             %tr.contributors__head-tr
               %th(data-key="avatar_url")
-              %th.contributor__username(data-key="login" onclick="tableSort()") Username
+              %th.contributor__username(data-key="login") Username
               %th(data-key="id") Id
               %th(data-key="html_url") Github Link
-              %th(data-key="contributions") Number of Contributions
+              %th(data-key="contributions") 
+                Number of 
+                %br/ 
+                Contributions
               %th(data-key="company") Company
               %th(data-key="location") Address
               %th(data-key="email") Email

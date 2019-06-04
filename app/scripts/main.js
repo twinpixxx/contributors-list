@@ -40,7 +40,7 @@ function generateTable(table, data, keys) {
 			if (element['contributions'] < 5) {
 				row.classList.add('contributors__contributions_bronze');
 			} else if ((element['contributions'] > 5) && (element['contributions'] < 20)) {
-				row.classList.add('contributors__contributions-silver');
+				row.classList.add('contributors__contributions_silver');
 			} else if ((element['contributions'] >= 20)) {
 				row.classList.add('contributors__contributions_gold');
 			}		
@@ -60,16 +60,13 @@ function generateTable(table, data, keys) {
 	}
 }
 
-
+//fix: bug with @kubetz and @monkyz 's profiles
 function getAdditionalInfo(table, keys) {
 	let rows = table.querySelectorAll('tr');
 	for (let row of rows) {
 		let contributorLogin = row.getElementsByClassName('contributors__login')[0].innerText;
 		let additionalUrl = 'https://api.github.com/users/'+contributorLogin;
 		$.getJSON(additionalUrl, function(additionalData){
-			if (contributorLogin == 'kubetz') {
-			debugger;
-		}
 			if (keys.has('company')) {
 				let cell = row.querySelector('.contributors__company');
 				let contributorCompany = additionalData['company'];
@@ -105,6 +102,26 @@ function getAdditionalInfo(table, keys) {
 }
 
 
+function contributorsGroupper(table) {
+	let groupSelector = document.getElementById('contributors__groupper');
+	groupSelector.addEventListener('input', function () {
+		let group = this.selectedOptions[0].value;
+		if (group == 'Bronze') {
+			table.classList.add('contributors_filtered_bronze');
+			table.classList.remove('contributors_filtered_gold', 'contributors_filtered_silver');
+		} else if (group == 'Silver') {
+			table.classList.add('contributors_filtered_silver');
+			table.classList.remove('contributors_filtered_gold', 'contributors_filtered_bronze');
+		} else if (group == 'Gold') {
+			table.classList.add('contributors_filtered_gold');
+			table.classList.remove('contributors_filtered_bronze', 'contributors_filtered_silver');
+		} else {
+			table.classList.remove('contributors_filtered_gold', 'contributors_filtered_silver', 'contributors_filtered_bronze');
+		}
+	});
+}
+
+
 $(document).ready(function() {
 	const url = 'https://api.github.com/repos/thomasdavis/backbonetutorials/contributors';
 	//fix: table should be tbody
@@ -118,5 +135,6 @@ $(document).ready(function() {
 	$.getJSON(url, function(data) {
 		generateTable(table, data, keys);
 		getAdditionalInfo(table, keys);
+		contributorsGroupper(table);
 	});
 });
