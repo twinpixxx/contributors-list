@@ -38,11 +38,11 @@ function generateTable(table, data, keys) {
 			cell.appendChild(numberOfContributions);
 			cell.classList.add('contributors__contributions', 'contributors__td');
 			if (element['contributions'] < 5) {
-				row.classList.add('contributors__contributions-bronze');
+				row.classList.add('contributors__contributions_bronze');
 			} else if ((element['contributions'] > 5) && (element['contributions'] < 20)) {
 				row.classList.add('contributors__contributions-silver');
 			} else if ((element['contributions'] >= 20)) {
-				row.classList.add('contributors__contributions-gold');
+				row.classList.add('contributors__contributions_gold');
 			}		
 		}
 		if (keys.has('company')) {
@@ -77,7 +77,7 @@ function getAdditionalInfo(table, keys) {
 					cell.innerHTML = contributorCompany;
 				} else {
 					cell.innerHTML = '&mdash;';
-					cell.classList.add('contributors__location-undef');
+					cell.classList.add('contributors__location_undef');
 				}
 			}
 			if (keys.has('location')) {
@@ -87,7 +87,7 @@ function getAdditionalInfo(table, keys) {
 					cell.innerHTML = contributorLocation;
 				} else {
 					cell.innerHTML = '&mdash;';
-					cell.classList.add('contributors__location-undef');
+					cell.classList.add('contributors__location_undef');
 				}
 			}
 			if (keys.has('email')) {
@@ -97,7 +97,7 @@ function getAdditionalInfo(table, keys) {
 					cell.innerHTML = contributorEmail;
 				} else {
 					cell.innerHTML = '&mdash;';
-					cell.classList.add('contributors__email-undef');
+					cell.classList.add('contributors__email_undef');
 				}
 			}
 		});
