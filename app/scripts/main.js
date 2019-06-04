@@ -1,61 +1,61 @@
 function generateTable(table, data, keys) {
 	for (let element of data) {
 		let row = table.insertRow();
-		row.setAttribute('class', 'contributors__tr');
+		row.classList.add('contributors__tr');
 		// let userData;
 		if (keys.has('avatar_url')) {
 			let cell = row.insertCell();
 			let contributorAccountImage = document.createElement('img');
-			contributorAccountImage.setAttribute('class', 'contributors__account-image');
+			contributorAccountImage.classList.add('contributors__account-image');
 			contributorAccountImage.setAttribute('src', element['avatar_url']);
 			cell.appendChild(contributorAccountImage);
-			cell.setAttribute('class', 'contributors__td contributors__td-image');
+			cell.classList.add('contributors__td', 'contributors__td-image');
 		}
 		if (keys.has('login')) {
 			let cell = row.insertCell();
 			let contributorLogin = document.createTextNode(element['login']);
 			cell.appendChild(contributorLogin);
-			cell.setAttribute('class', 'contributors__login contributors__td');
+			cell.classList.add('contributors__login', 'contributors__td');
 		}
 		if (keys.has('id')) {
 			let cell = row.insertCell();
 			let contributorId = document.createTextNode(element['id']);
 			cell.appendChild(contributorId);
-			cell.setAttribute('class', 'contributors__id contributors__td');
+			cell.classList.add('contributors__id', 'contributors__td');
 		}
 		if (keys.has('html_url')) {
 			let cell = row.insertCell();
 			let contributorAccountLink = document.createElement('a');
-			contributorAccountLink.setAttribute('class', 'contributors__account-url');
+			contributorAccountLink.classList.add('contributors__account-url');
 			contributorAccountLink.setAttribute('href', element['html_url']);
 			contributorAccountLink.textContent += `${element.login}'s account`;
 			cell.appendChild(contributorAccountLink);
-			cell.setAttribute('class', 'contributors__td');
+			cell.classList.add('contributors__td');
 		}
 		if (keys.has('contributions')) {
 			let cell = row.insertCell();
 			let numberOfContributions = document.createTextNode(element['contributions']);
 			cell.appendChild(numberOfContributions);
-			cell.setAttribute('class', 'contributors__contributions contributors__td');
+			cell.classList.add('contributors__contributions', 'contributors__td');
 			if (element['contributions'] < 5) {
-				cell.setAttribute('class', 'contributors__contributions contributors__td contributors__contributions-bronze');
+				row.classList.add('contributors__contributions-bronze');
 			} else if ((element['contributions'] > 5) && (element['contributions'] < 20)) {
-				cell.setAttribute('class', 'contributors__contributions contributors__td contributors__contributions-silver');
+				row.classList.add('contributors__contributions-silver');
 			} else if ((element['contributions'] >= 20)) {
-				cell.setAttribute('class', 'contributors__contributions contributors__td contributors__contributions-gold');
+				row.classList.add('contributors__contributions-gold');
 			}		
 		}
 		if (keys.has('company')) {
 			let cell = row.insertCell();	
-			cell.setAttribute('class', 'contributors__company contributors__td');
+			cell.classList.add('contributors__company', 'contributors__td');
 		}
 		if (keys.has('location')) {
 			let cell = row.insertCell();	
-			cell.setAttribute('class', 'contributors__location contributors__td');
+			cell.classList.add('contributors__location', 'contributors__td');
 		}
 		if (keys.has('email')) {
 			let cell = row.insertCell();	
-			cell.setAttribute('class', 'contributors__email contributors__td');
+			cell.classList.add('contributors__email', 'contributors__td');
 		}
 	}
 }
@@ -77,7 +77,7 @@ function getAdditionalInfo(table, keys) {
 					cell.innerHTML = contributorCompany;
 				} else {
 					cell.innerHTML = '&mdash;';
-					cell.setAttribute('class', 'contributors__company contributors__td contributors__company-undef');
+					cell.classList.add('contributors__location-undef');
 				}
 			}
 			if (keys.has('location')) {
@@ -87,7 +87,7 @@ function getAdditionalInfo(table, keys) {
 					cell.innerHTML = contributorLocation;
 				} else {
 					cell.innerHTML = '&mdash;';
-					cell.setAttribute('class', 'contributors__email contributors__td contributors__location-undef');
+					cell.classList.add('contributors__location-undef');
 				}
 			}
 			if (keys.has('email')) {
@@ -97,7 +97,7 @@ function getAdditionalInfo(table, keys) {
 					cell.innerHTML = contributorEmail;
 				} else {
 					cell.innerHTML = '&mdash;';
-					cell.setAttribute('class', 'contributors__email contributors__td contributors__email-undef');
+					cell.classList.add('contributors__email-undef');
 				}
 			}
 		});
