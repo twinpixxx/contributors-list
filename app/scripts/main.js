@@ -66,38 +66,46 @@ function getAdditionalInfo(table, keys) {
 	for (let row of rows) {
 		let contributorLogin = row.getElementsByClassName('contributors__login')[0].innerText;
 		let additionalUrl = 'https://api.github.com/users/'+contributorLogin;
-		$.getJSON(additionalUrl, function(additionalData){
-			if (keys.has('company')) {
-				let cell = row.querySelector('.contributors__company');
-				let contributorCompany = additionalData['company'];
-				if (contributorCompany) {
-					cell.innerHTML = contributorCompany;
-				} else {
-					cell.innerHTML = '&mdash;';
-					cell.classList.add('contributors__location_undef');
+		$.ajax({
+	        url: additionalUrl,
+	        type: "GET",
+	        data: 'json',
+	        success: function(additionalData){
+				if (keys.has('company')) {
+					let cell = row.querySelector('.contributors__company');
+					let contributorCompany = additionalData['company'];
+					if (contributorCompany) {
+						cell.innerHTML = contributorCompany;
+					} else {
+						cell.innerHTML = '&mdash;';
+						cell.classList.add('contributors__location_undef');
+					}
 				}
-			}
-			if (keys.has('location')) {
-				let cell = row.querySelector('.contributors__location');
-				let contributorLocation = additionalData['location'];
-				if (contributorLocation) {
-					cell.innerHTML = contributorLocation;
-				} else {
-					cell.innerHTML = '&mdash;';
-					cell.classList.add('contributors__location_undef');
+				if (keys.has('location')) {
+					let cell = row.querySelector('.contributors__location');
+					let contributorLocation = additionalData['location'];
+					if (contributorLocation) {
+						cell.innerHTML = contributorLocation;
+					} else {
+						cell.innerHTML = '&mdash;';
+						cell.classList.add('contributors__location_undef');
+					}
 				}
-			}
-			if (keys.has('email')) {
-				let cell = row.querySelector('.contributors__email');
-				let contributorEmail = additionalData['email'];
-				if (contributorEmail) {
-					cell.innerHTML = contributorEmail;
-				} else {
-					cell.innerHTML = '&mdash;';
-					cell.classList.add('contributors__email_undef');
+				if (keys.has('email')) {
+					let cell = row.querySelector('.contributors__email');
+					let contributorEmail = additionalData['email'];
+					if (contributorEmail) {
+						cell.innerHTML = contributorEmail;
+					} else {
+						cell.innerHTML = '&mdash;';
+						cell.classList.add('contributors__email_undef');
+					}
 				}
-			}
-		});
+			},
+	        error: function (xhr, ajaxOptions, thrownError) {
+	        	alert(xhr.responseText);
+	      	}
+    	});
 	}
 }
 
@@ -132,9 +140,17 @@ $(document).ready(function() {
 	Array.prototype.forEach.call(headers, function(header) {
 		keys.add(header.dataset.key);
 	});
-	$.getJSON(url, function(data) {
-		generateTable(table, data, keys);
-		getAdditionalInfo(table, keys);
-		contributorsGroupper(table);
-	});
+	$.ajax({
+        url: url,
+        type: "GET",
+        data: 'json',
+        success: function (data) {
+           	generateTable(table, data, keys);
+           	getAdditionalInfo(table, keys);
+           	contributorsGroupper(table);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        	alert(xhr.responseText);
+      }
+    });
 });
