@@ -110,10 +110,7 @@ function getAdditionalInfo(table, keys) {
 }
 
 
-function contributorsGroupper(table) {
-	let groupSelector = document.getElementById('contributors__groupper');
-	groupSelector.addEventListener('input', function () {
-		let group = this.selectedOptions[0].value;
+function groupContributors(table, group) {
 		if (group == 'Bronze') {
 			table.classList.add('contributors_filtered_bronze');
 			table.classList.remove('contributors_filtered_gold', 'contributors_filtered_silver');
@@ -135,6 +132,7 @@ $(document).ready(function() {
 	//fix: table should be tbody
 	let table = document.getElementById('contributors__list');
 	let headers = document.querySelectorAll('th');
+	let groupSelector = document.getElementById('contributors__groupper');
 	let keys = new Set();
 	//rewrite with array.set
 	Array.prototype.forEach.call(headers, function(header) {
@@ -147,10 +145,13 @@ $(document).ready(function() {
         success: function (data) {
            	generateTable(table, data, keys);
            	getAdditionalInfo(table, keys);
-           	contributorsGroupper(table);
+           	groupSelector.removeAttribute('disabled');
         },
-        error: function (xhr, ajaxOptions, thrownError) {
+        error: function (xhr) {
         	alert(xhr.responseText);
       }
     });
-});
+    // use another way to navigate to table in groupSelector
+	groupSelector.addEventListener('input', function(){
+		groupContributors(table, groupSelector.selectedOptions[0].value)
+	});
