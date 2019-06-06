@@ -9,8 +9,7 @@ $head-th_padding: 1.5em 25px;
 }
 .container {
     margin: 0 auto;
-    max-width: 1280px;
-    width: 100%;
+    max-width: 90vw;
 }
 .contributors {
     border-collapse: collapse;
@@ -126,4 +125,13 @@ only screen and (max-width: 760px),
     .contributors__td:nth-of-type(6):before { content: "Company"; }
     .contributors__td:nth-of-type(7):before { content: "Address"; }
     .contributors__td:nth-of-type(8):before { content: "Email"; }
+}
+.selection {
+    margin-bottom: 20px;
+    &__groupper {
+        margin: 0 15px 0 10px;
+    }
+    &__sort {
+        margin: 0 15px 0 10px;
+    }
 }

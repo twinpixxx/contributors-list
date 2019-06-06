@@ -12,11 +12,12 @@
       %section.title
         %span
       %section.selection
-        %select#contributors__groupper
-          %option{selected: "selected", value: "All"} All
-          %option{value: "Bronze"} Bronze
-          %option{value: "Silver"} Silver
-          %option{value: "Gold"} Gold
+        %label{for="groupper"} Sort Contributors by groups:
+        %select#contributors__groupper.selection__groupper(disabled="disabled" name="groupper")
+          %option(selected: "selected", value: "All") All
+          %option(value: "Bronze") Bronze
+          %option(value: "Silver") Silver
+          %option(value: "Gold") Gold
       %section.table__wrapper
         %table#contributors-table.contributors
           %thead.contributors__head
