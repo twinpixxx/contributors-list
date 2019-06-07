@@ -18,6 +18,11 @@
           %option(value: "Bronze") Bronze
           %option(value: "Silver") Silver
           %option(value: "Gold") Gold
+        %label{for="sort"} Sort Contributors by name:
+        %select#contributors__sort.selection__sort(disabled="disabled" name="sort")
+          %option(selected="selected" disabled="disabled" value: "None") None
+          %option(value: "ask") asc
+          %option(value: "desc") desc
       %section.table__wrapper
         %table#contributors-table.contributors
           %thead.contributors__head

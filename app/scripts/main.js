@@ -123,7 +123,25 @@ function groupContributors(table, group) {
 		} else {
 			table.classList.remove('contributors_filtered_gold', 'contributors_filtered_silver', 'contributors_filtered_bronze');
 		}
+}
+
+
+function sortRows(rows, order) {
+	let tbody = rows[0].closest('tbody');
+	rows.sort( function comparator(row1, row2) {
+		let firstContributor = row1.getElementsByClassName('contributors__login')[0].innerText.toLowerCase();
+		let secondContributor = row2.getElementsByClassName('contributors__login')[0].innerText.toLowerCase();
+		if (firstContributor > secondContributor) {
+			return 1;
+		} else {
+			return -1;
+		}
 	});
+	if (order == 'asc') {
+		rows.forEach(row => tbody.appendChild(row));
+	} else {
+		rows.reverse().forEach(row => tbody.appendChild(row));
+	}
 }
 
 
@@ -133,6 +151,7 @@ $(document).ready(function() {
 	let table = document.getElementById('contributors__list');
 	let headers = document.querySelectorAll('th');
 	let groupSelector = document.getElementById('contributors__groupper');
+	let sortSelector = document.getElementById('contributors__sort');
 	let keys = new Set();
 	//rewrite with array.set
 	Array.prototype.forEach.call(headers, function(header) {
@@ -146,12 +165,19 @@ $(document).ready(function() {
            	generateTable(table, data, keys);
            	getAdditionalInfo(table, keys);
            	groupSelector.removeAttribute('disabled');
+           	sortSelector.removeAttribute('disabled');
         },
         error: function (xhr) {
         	alert(xhr.responseText);
       }
     });
     // use another way to navigate to table in groupSelector
+    // and to table in sortSelector
 	groupSelector.addEventListener('input', function(){
 		groupContributors(table, groupSelector.selectedOptions[0].value)
 	});
+	sortSelector.addEventListener('input', function() {
+		let rows = [...table.querySelectorAll('tr')];
+		sortRows(rows, sortSelector.selectedOptions[0].value);
+	});
+});
