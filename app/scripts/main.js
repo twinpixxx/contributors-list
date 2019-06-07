@@ -128,7 +128,7 @@ function groupContributors(table, group) {
 
 function sortRows(rows, order) {
 	let tbody = rows[0].closest('tbody');
-	rows.sort( function comparator(row1, row2) {
+	rows.sort((row1, row2) => {
 		let firstContributor = row1.getElementsByClassName('contributors__login')[0].innerText.toLowerCase();
 		let secondContributor = row2.getElementsByClassName('contributors__login')[0].innerText.toLowerCase();
 		if (firstContributor > secondContributor) {
